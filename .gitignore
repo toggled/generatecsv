@@ -5,6 +5,14 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
 # C extensions
 *.so
 
