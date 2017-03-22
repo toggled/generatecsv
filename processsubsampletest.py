@@ -3,6 +3,8 @@ __author__ = 'Naheed'
 import os, sys
 import csv
 from operator import itemgetter
+from sys import platform
+
 
 
 def aggregateresults(sourcepath, outputfilename):
@@ -70,8 +72,10 @@ def aggregateresults(sourcepath, outputfilename):
         algoht[v] = sorted(algoht[v], key=itemgetter(0), reverse=True)
 
     for k, v in flagmeaning.items():
-        csvf = open(sourcepath + "/" + v + "_" + outputfilename, 'wt')
-
+        if platform == "darwin":
+            csvf = open(sourcepath + "/" + v + "_" + outputfilename, 'wt')
+        elif platform == 'win32':
+            csvf = open(sourcepath + "\\" + v + "_" + outputfilename, 'wt')
         try:
             writer = csv.writer(csvf)
             writer.writerow(('NumHyperedges', 'IntersectionMean', 'IntersectionSD', 'AreaPropMean', 'AreaPropSD',
@@ -83,12 +87,21 @@ def aggregateresults(sourcepath, outputfilename):
 
 
 def main():
-    rootpath = "/Users/naheed/Google Drive/Regularplacement_fuchterman_reingold_everything/datasets"
+    if platform == "darwin":
+        rootpath = "/Users/naheed/Google Drive/Regularplacement_fuchterman_reingold_everything/datasets"
+        suffixpath = "subsampletest"
 
-    suffixpath = "subsampletest"
+        outputfilename = "res_agg.csv"
+        aggregateresults(rootpath + "/" + suffixpath, outputfilename)
 
-    outputfilename = "res_agg.csv"
-    aggregateresults(rootpath + "/" + suffixpath, outputfilename)
+    elif platform == "win32":
+
+        rootpath = "/Users/naheed/Google Drive/Regularplacement_fuchterman_reingold_everything/datasets"
+
+        suffixpath = "subsampletest"
+
+        outputfilename = "res_agg.csv"
+        aggregateresults(rootpath + "/" + suffixpath, outputfilename)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 import os, sys
 import csv
 from operator import itemgetter
-
+from sys import platform
 
 def aggregateresults(sourcepath, outputfilename):
     assert os.path.isdir(sourcepath) == True
@@ -73,7 +73,10 @@ def aggregateresults(sourcepath, outputfilename):
         #     print x , len(x)
 
     for k, v in flagmeaning.items():
-        csvf = open(sourcepath + "/" + v + "_" + outputfilename, 'wt')
+        if platform == "darwin":
+            csvf = open(sourcepath + "/" + v + "_" + outputfilename, 'wt')
+        elif platform == 'win32':
+            csvf = open(sourcepath + "\\" + v + "_" + outputfilename, 'wt')
 
         try:
             writer = csv.writer(csvf)
@@ -86,13 +89,18 @@ def aggregateresults(sourcepath, outputfilename):
 
 
 def main():
-    rootpath = "/Users/naheed/Google Drive/Regularplacement_fuchterman_reingold_everything/datasets"
+    if platform == "darwin":
+        rootpath = "/Users/naheed/Google Drive/Regularplacement_fuchterman_reingold_everything/datasets"
+        suffixpath = "randomsampletest"
+        outputfilename = "res_agg.csv"
+        aggregateresults(rootpath + "/" + suffixpath, outputfilename)
 
-    suffixpath = "randomsampletest"
+    elif platform == "win32":
 
-    outputfilename = "res_agg.csv"
-    aggregateresults(rootpath + "/" + suffixpath, outputfilename)
-
+        rootpath = "/Users/naheed/Google Drive/Regularplacement_fuchterman_reingold_everything/datasets"
+        suffixpath = "randomsampletest"
+        outputfilename = "res_agg.csv"
+        aggregateresults(rootpath + "/" + suffixpath, outputfilename)
 
 if __name__ == "__main__":
     main()
