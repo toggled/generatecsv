@@ -97,10 +97,10 @@ def main():
 
     elif platform == "win32":
 
-        rootpath = "/Users/naheed/Google Drive/Regularplacement_fuchterman_reingold_everything/datasets"
+        rootpath = "C:\\Users\\workshop\\Google Drive\\Regularplacement_fuchterman_reingold_everything\\datasets\\synthetic"
         suffixpath = "randomsampletest"
         outputfilename = "res_agg.csv"
-        aggregateresults(rootpath + "/" + suffixpath, outputfilename)
+        aggregateresults(rootpath + "\\" + suffixpath, outputfilename)
 
 if __name__ == "__main__":
     main()
