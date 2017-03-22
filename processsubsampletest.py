@@ -83,7 +83,7 @@ def aggregateresults(sourcepath, outputfilename):
 
 
 def main():
-    rootpath = "/Users/naheed/Google Drive/fuchterman_reingold_everything/datasets"
+    rootpath = "/Users/naheed/Google Drive/Regularplacement_fuchterman_reingold_everything/datasets"
 
     suffixpath = "subsampletest"
 

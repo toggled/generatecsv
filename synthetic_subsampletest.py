@@ -71,8 +71,8 @@ def aggregateresults(sourcepath, outputfilename):
         algoht[v] = sorted(algoht[v], key=itemgetter(0), reverse=True)
 
     for k, v in flagmeaning.items():
-        # csvf = open(sourcepath + "/" + v + "_" + outputfilename, 'wt')
-        csvf = open(sourcepath + "\\" + v + "_" + outputfilename, 'wt')
+        csvf = open(sourcepath + "/" + v + "_" + outputfilename, 'wt')
+        # csvf = open(sourcepath + "\\" + v + "_" + outputfilename, 'wt')
 
         try:
             writer = csv.writer(csvf)
@@ -85,13 +85,13 @@ def aggregateresults(sourcepath, outputfilename):
 
 
 def main():
-    # rootpath = "/Users/naheed/Google Drive/fuchterman_reingold_everything/datasets"
-    rootpath = "C:\\Users\\workshop\\Google Drive\\fuchterman_reingold_everything\\datasets\\synthetic"
+    rootpath = "/Users/naheed/Google Drive/fuchterman_reingold_everything/datasets"
+    # rootpath = "C:\\Users\\workshop\\Google Drive\\fuchterman_reingold_everything\\datasets\\synthetic"
     suffixpath = "subsampletest"
 
     outputfilename = "res_agg.csv"
-    # aggregateresults(rootpath + "/" + suffixpath, outputfilename)
-    aggregateresults(rootpath + "\\" + suffixpath, outputfilename)
+    aggregateresults(rootpath + "/" + suffixpath, outputfilename)
+    # aggregateresults(rootpath + "\\" + suffixpath, outputfilename)
 
 if __name__ == "__main__":
     main()
