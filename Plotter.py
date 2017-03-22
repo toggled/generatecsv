@@ -98,7 +98,7 @@ class Plotter:
             self.algoht[v] = sorted(self.algoht[v], key=itemgetter(0), reverse=True)
 
     def plot(self):
-
+        fig = plt.figure()
         plt.rc('font', family='serif')
         plt.rc('font', size ='10')
         plt.rc('xtick', labelsize='x-small')
@@ -127,6 +127,9 @@ class Plotter:
         legend(loc=2)
         savefig(self.sourcepath+'/Intersection.pdf', bbox_inches='tight')
         # plt.show()
+        plt.close()
+
+        fig = plt.figure()
 
         ab = 1
         for key, val in self.algoht.items():
@@ -147,6 +150,8 @@ class Plotter:
         legend(loc = 2)
         savefig(self.sourcepath + '/Areaproportion.pdf', bbox_inches='tight')
         # plt.show()
+        plt.close()
+
 
         fig = plt.figure()
         fig.subplots_adjust(left=0.1, bottom=0.1, right=0.99, top=0.99, wspace=0.2)
@@ -170,6 +175,7 @@ class Plotter:
 
         savefig(self.sourcepath + '/Concavity.pdf', bbox_inches='tight')
         # plt.show()
+        plt.close()
 
         fig = plt.figure()
         fig.subplots_adjust(left=0.1, bottom=0.1, right=0.99, top=0.99, wspace=0.2)
@@ -223,7 +229,7 @@ class Plotter:
 
         savefig(self.sourcepath + '/Regularity.pdf', bbox_inches='tight')
         # plt.show()
-
+        plt.close()
 
 
 if __name__ == "__main__":
