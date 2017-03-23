@@ -110,9 +110,9 @@ class Plotter:
         plt.rc('xtick', labelsize='x-small')
         plt.rc('ytick', labelsize='x-small')
 
-        Xaxis = []
-        for key, val in self.algoht.items():
-            Xaxis = [i[0] for i in val]
+
+
+        """Plotting Intersection"""
 
         ab = 1
         for key,val in self.algoht.items():
@@ -121,6 +121,7 @@ class Plotter:
             # print plotname, val
             Inters = [i[1] for i in val]
             Intersvar = [i[2] for i in val]
+            Xaxis = [v[0] for v in val]
             plt.errorbar(Xaxis, Inters, yerr=Intersvar,label=plotname)
             # if self.suffixpath == "subsampletest":
 
@@ -130,13 +131,14 @@ class Plotter:
             ab+=1
 
             # fig.suptitle('Intersecting hyperedges on different sample of' + ["Real","Synthetic"][self.real]+ 'graph')
-        legend(loc=2)
+        legend(loc=2,fontsize=8)
         savefig(self.sourcepath+'/Intersection.pdf', bbox_inches='tight')
         # plt.show()
         plt.close()
 
-        fig = plt.figure()
+        """Plotting Areaproportion"""
 
+        fig = plt.figure()
         ab = 1
         for key, val in self.algoht.items():
             # ax = fig.add_subplot(2, 2, ab)  # top left
@@ -144,23 +146,25 @@ class Plotter:
             # print plotname, val
             areaprop = [i[3] for i in val]
             areapropvar = [i[4] for i in val]
+            Xaxis = [v[0] for v in val]
             plt.errorbar(Xaxis, areaprop, yerr=areapropvar,label=plotname)
             # if self.suffixpath == "subsampletest":
 
             plt.xlabel('Number of hyperedges')
-            plt.ylabel('Mean number of intersection')
+            plt.ylabel('Coverage')
 
             ab += 1
 
             # fig.suptitle('Intersecting hyperedges on different sample of' + ["Real","Synthetic"][self.real]+ 'graph')
-        legend(loc = 2)
+        legend(loc = 2,fontsize=8)
+
         savefig(self.sourcepath + '/Areaproportion.pdf', bbox_inches='tight')
         # plt.show()
         plt.close()
 
-
+        """Plotting concavity"""
         fig = plt.figure()
-        fig.subplots_adjust(left=0.1, bottom=0.1, right=0.99, top=0.99, wspace=0.2)
+        fig.subplots_adjust(left=0.1, bottom=0.1, right=0.99, top=0.99, wspace=0.3,hspace = 0.3)
 
         ab = 1
         for key, val in self.algoht.items():
@@ -169,13 +173,15 @@ class Plotter:
             # print plotname, val
             areaprop = [i[5] for i in val]
             areapropvar = [i[6] for i in val]
-            plt.errorbar(Xaxis, areaprop, yerr=areapropvar, label=plotname)
+            Xaxis = [v[0] for v in val]
+            plt.errorbar(Xaxis, areaprop, yerr=areapropvar)
             # if self.suffixpath == "subsampletest":
 
             ax.set_xlabel('Number of hyperedges')
             ax.set_ylabel('Mean number of concave shapes')
             ax.legend(loc=2, fontsize = 10)
             ab += 1
+            plt.title(plotname, fontsize=10)
 
             # fig.suptitle('Intersecting hyperedges on different sample of' + ["Real","Synthetic"][self.real]+ 'graph')
 
@@ -183,18 +189,21 @@ class Plotter:
         # plt.show()
         plt.close()
 
+        """Plotting Regualirty"""
         fig = plt.figure()
-        fig.subplots_adjust(left=0.1, bottom=0.1, right=0.99, top=0.99, wspace=0.2)
+
+        fig.subplots_adjust(left=0.1, bottom=0.1, right=0.99, top=0.99, wspace=0.25,hspace = 0.25)
 
         ab = 1
         for key, val in self.algoht.items():
             ax = fig.add_subplot(2,2,ab)
-            column_labels = Xaxis
-
+            column_labels =  [v[0] for v in val]
+            # print column_labels
             plotname = key + " associated graph"
             # print plotname
             maxx = max([len(x[7]) for x in val])
             row_labels = []
+
             for i in val:
                 for key in i[7].keys():
                     if key not in row_labels:
@@ -233,18 +242,18 @@ class Plotter:
                     # temp = [self.delta]*(maxx-len(i))
                     # whatever = [self.delta if x < self.delta else x for x in i]
                     # whatever.extend(temp)
-                    # another.append(whatever)
+                    another.append(whatever)
 
             probdict = np.log(np.array(another))
 
 
-            ax.set_xlabel('Grid Size')
+            ax.set_xlabel('Grid size')
             ax.set_ylabel('Number of hyperedge')
             ax.legend(loc=2, fontsize=10)
-
+            # print np.arange(probdict.shape[0])
             ax.set_yticks(np.arange(probdict.shape[0]) + 0.5, minor=False)
             ax.set_xticks(np.arange(probdict.shape[1]) + 0.5, minor=False)
-            row_labels = [str(v)  for v in row_labels]
+            # row_labels = [str(v) for v in row_labels]
             ax.set_yticklabels(column_labels, minor=False)
             ax.set_xticklabels(row_labels, minor=False)
 
@@ -253,6 +262,7 @@ class Plotter:
             # fig.suptitle('Intersecting hyperedges on different sample of' + ["Real","Synthetic"][self.real]+ 'graph')
             # print probdict
             plt.pcolor(probdict, cmap=plt.cm.Reds)
+            plt.title(plotname, fontsize = 10)
 
         savefig(self.sourcepath + '/Regularity.pdf', bbox_inches='tight')
         # plt.show()
@@ -262,13 +272,15 @@ class Plotter:
 if __name__ == "__main__":
 
     if platform == "darwin":
-        rootpath = "/Users/naheed/Google Drive/Regularplacement_fuchterman_reingold_everything/datasets/realgraph-grid"
+        # rootpath = "/Users/naheed/Google Drive/Regularplacement_fuchterman_reingold_everything/datasets/crandom"
+        # rootpath = "/Users/naheed/Google Drive/Regularplacement_fuchterman_reingold_everything/datasets/ccircular"
+        rootpath = "/Users/naheed/Google Drive/Regularplacement_fuchterman_reingold_everything/datasets/cgrid"
         suffixpath1 = "subsampletest"
         suffixpath2 = "randomsampletest"
 
         outputfilename = "res_agg.csv"
 
-        p = Plotter(rootpath, suffixpath1, outputfilename,real = True)
+        p = Plotter(rootpath, suffixpath1, outputfilename, real = True)
         p.plot()
         p = Plotter(rootpath, suffixpath2, outputfilename, real = True)
         p.plot()
