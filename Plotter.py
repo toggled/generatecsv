@@ -25,7 +25,10 @@ class Plotter:
 
     def generateres(self):
         for file in os.listdir(self.sourcepath):
-            print file
+            # print file
+            if file.find("txt") == -1:
+                continue
+            # print file
             with open(self.sourcepath + "/" + file, 'r') as f:
                 all = f.readlines()
                 flag = -1
@@ -65,15 +68,18 @@ class Plotter:
 
                         # try:
                         listofstaff = all[i + 4].split()[1:]
-                        key = [int(x.split('x')[0]) for x in listofstaff[0::2]]
-                        val = [float(x) for x in listofstaff[1::2]]
-                        anotherval = []
-                        for i in val:
-                            if i <self.delta:
-                                anotherval.append(0.0)
-                            else:
-                                anotherval.append(i)
-                        uniformity = dict(zip(key, anotherval))
+                        key = []
+                        val = []
+                        for x,y in zip(listofstaff[0::2],listofstaff[1::2]):
+                            if int(x.split('x')[0]) != 0:
+                                key.append(int(x.split('x')[0]))
+                                if float(y) <self.delta:
+                                    val.append(0.0)
+                                else:
+                                    val.append(float(y))
+
+
+                        uniformity = dict(zip(key, val))
                         # print uniformity
 
                         # except:
@@ -90,10 +96,10 @@ class Plotter:
                             self.algoht[self.flagmeaning[flag]] = [[numhg] + numint + areprop + concav]
                             self.algoht[self.flagmeaning[flag]][-1].append(uniformity)
                         flag = -1
-        #
-        # for x in algoht['Star']:
-        #     print x , len(x)
 
+        # for x in self.algoht['Star']:
+        #     print x , len(x)
+        # print self.algoht
         for k, v in self.flagmeaning.items():
             self.algoht[v] = sorted(self.algoht[v], key=itemgetter(0), reverse=True)
 
@@ -194,19 +200,40 @@ class Plotter:
                     if key not in row_labels:
                         row_labels.append(key)
             row_labels.sort()
-            probdict = [i[7].values() for i in val]
+
+
+            probdict = [i[7].items() for i in val]
             another = []
-            # print probdict
+            print probdict
+
             for i in probdict:
+                ht = {}
+                for gridsize,prob in i:
+                    ht[gridsize] = prob
+                whatever = []
+
                 if len(i) == maxx:
-                    whatever = [self.delta if x<self.delta else x for x in i]
+                    # whatever = [self.delta if x<self.delta else x for x in i]
+                    for gr in row_labels:
+                        if ht.get(gr) < self.delta:
+                            whatever.append(self.delta)
+                        else:
+                            whatever.append(ht.get(gr))
 
                     another.append(whatever)
                 else:
-                    temp = [self.delta]*(maxx-len(i))
-                    whatever = [self.delta if x < self.delta else x for x in i]
-                    whatever.extend(temp)
-                    another.append(whatever)
+                    for gr in row_labels:
+                        if ht.get(gr,-1)!=-1:
+                            if ht.get(gr) < self.delta:
+                                whatever.append(self.delta)
+                            else:
+                                whatever.append(ht.get(gr))
+                        else:
+                            whatever.append(self.delta)
+                    # temp = [self.delta]*(maxx-len(i))
+                    # whatever = [self.delta if x < self.delta else x for x in i]
+                    # whatever.extend(temp)
+                    # another.append(whatever)
 
             probdict = np.log(np.array(another))
 
@@ -217,7 +244,7 @@ class Plotter:
 
             ax.set_yticks(np.arange(probdict.shape[0]) + 0.5, minor=False)
             ax.set_xticks(np.arange(probdict.shape[1]) + 0.5, minor=False)
-
+            row_labels = [str(v)  for v in row_labels]
             ax.set_yticklabels(column_labels, minor=False)
             ax.set_xticklabels(row_labels, minor=False)
 
@@ -235,7 +262,7 @@ class Plotter:
 if __name__ == "__main__":
 
     if platform == "darwin":
-        rootpath = "/Users/naheed/Google Drive/Regularplacement_fuchterman_reingold_everything/datasets"
+        rootpath = "/Users/naheed/Google Drive/Regularplacement_fuchterman_reingold_everything/datasets/realgraph-grid"
         suffixpath1 = "subsampletest"
         suffixpath2 = "randomsampletest"
 
