@@ -125,13 +125,13 @@ class Plotter:
             plt.errorbar(Xaxis, Inters, yerr=Intersvar,label=plotname)
             # if self.suffixpath == "subsampletest":
 
-            plt.xlabel('Number of hyperedges')
-            plt.ylabel('Mean number of intersection')
+            plt.xlabel('Number of hyperedges',fontsize = 8)
+            plt.ylabel('Mean number of intersection',fontsize = 8)
 
             ab+=1
 
             # fig.suptitle('Intersecting hyperedges on different sample of' + ["Real","Synthetic"][self.real]+ 'graph')
-        legend(loc=2,fontsize=8)
+        legend(loc=2,fontsize=6)
         savefig(self.sourcepath+'/Intersection.pdf', bbox_inches='tight')
         # plt.show()
         plt.close()
@@ -150,13 +150,13 @@ class Plotter:
             plt.errorbar(Xaxis, areaprop, yerr=areapropvar,label=plotname)
             # if self.suffixpath == "subsampletest":
 
-            plt.xlabel('Number of hyperedges')
-            plt.ylabel('Coverage')
+            plt.xlabel('Number of hyperedges',fontsize = 8)
+            plt.ylabel('Coverage',fontsize = 8)
 
             ab += 1
 
             # fig.suptitle('Intersecting hyperedges on different sample of' + ["Real","Synthetic"][self.real]+ 'graph')
-        legend(loc = 2,fontsize=8)
+        legend(loc = 2,fontsize=6)
 
         savefig(self.sourcepath + '/Areaproportion.pdf', bbox_inches='tight')
         # plt.show()
@@ -177,9 +177,9 @@ class Plotter:
             plt.errorbar(Xaxis, areaprop, yerr=areapropvar)
             # if self.suffixpath == "subsampletest":
 
-            ax.set_xlabel('Number of hyperedges')
-            ax.set_ylabel('Mean number of concave shapes')
-            ax.legend(loc=2, fontsize = 10)
+            ax.set_xlabel('Number of hyperedges',fontsize = 8)
+            ax.set_ylabel('Mean number of concave shapes',fontsize = 8)
+            ax.legend(loc=2, fontsize = 6)
             ab += 1
             plt.title(plotname, fontsize=10)
 
@@ -192,7 +192,7 @@ class Plotter:
         """Plotting Regualirty"""
         fig = plt.figure()
 
-        fig.subplots_adjust(left=0.1, bottom=0.1, right=0.99, top=0.99, wspace=0.25,hspace = 0.25)
+        fig.subplots_adjust(left=0.1, bottom=0.1, right=0.99, top=0.99, wspace=0.3,hspace = 0.3)
 
         ab = 1
         for key, val in self.algoht.items():
@@ -247,9 +247,9 @@ class Plotter:
             probdict = np.log(np.array(another))
 
 
-            ax.set_xlabel('Grid size')
-            ax.set_ylabel('Number of hyperedge')
-            ax.legend(loc=2, fontsize=10)
+            ax.set_xlabel('Grid size', fontsize = 8)
+            ax.set_ylabel('Number of hyperedge', fontsize = 8)
+            ax.legend(loc=2, fontsize=6)
             # print np.arange(probdict.shape[0])
             ax.set_yticks(np.arange(probdict.shape[0]) + 0.5, minor=False)
             ax.set_xticks(np.arange(probdict.shape[1]) + 0.5, minor=False)
@@ -286,8 +286,19 @@ if __name__ == "__main__":
         p.plot()
 
     elif platform == "win32":
+        # arr = ["circular-syn","grid-synthetic","random-synthetic","Eades-grid-synthetic"]
+        # for i in arr:
+        #     rootpath = "C:\\Users\\workshop\\Google Drive\\Regularplacement_fuchterman_reingold_everything\\datasets\\synthetic\\mod"+"\\"+i
+        #     suffixpath1 = "subsampletest"
+        #     suffixpath2 = "randomsampletest"
+        #
+        #     outputfilename = "res_agg.csv"
+        #
+        #     p = Plotter(rootpath , suffixpath1, outputfilename,real = False)
+        #     p.plot()
+        #     p = Plotter(rootpath, suffixpath2, outputfilename,real = False)
+        #     p.plot()
         rootpath = "C:\\Users\\workshop\\Google Drive\\Regularplacement_fuchterman_reingold_everything\\datasets\\synthetic"
-
         suffixpath1 = "subsampletest"
         suffixpath2 = "randomsampletest"
 
